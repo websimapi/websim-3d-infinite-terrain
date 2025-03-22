@@ -10,8 +10,8 @@ export function generateTerrainNoise(offsetX, offsetZ, resolution, size, maxHeig
             const x = offsetX + (i / (resolution - 1) * size);
             const z = offsetZ + (j / (resolution - 1) * size);
             
-            // For now, flat terrain with slight noise
-            const height = maxHeight * 0.05 * noise2D(x/100, z/100); // Some gentle terrain variation
+            // Increase terrain visibility by adding more variation
+            const height = maxHeight * 0.5 * noise2D(x/100, z/100); // More noticeable terrain variation
             
             // Store the height
             heightData[i + j * resolution] = height;

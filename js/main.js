@@ -21,7 +21,6 @@ async function init() {
     renderer = initRenderer();
     scene = initScene();
     camera = initCamera();
-    controls = initControls(camera, renderer.domElement);
     
     // Initialize stats for performance monitoring
     stats = new Stats();
@@ -41,6 +40,9 @@ async function init() {
     // Initialize player
     player = new Player(scene, physicsSystem, camera, networkManager);
     
+    // Set up controls after player is created (not before)
+    controls = initControls(camera, renderer.domElement);
+    
     // Hide loading screen
     document.getElementById('loading').style.display = 'none';
     
@@ -55,6 +57,9 @@ async function init() {
     }, 100); // Update position every 100ms
 }
 
+// Clock for delta time calculation
+const clock = new THREE.Clock();
+
 function animate() {
     requestAnimationFrame(animate);
     
@@ -66,6 +71,7 @@ function animate() {
     if (player) player.update(delta);
     if (controls) controls.update();
     
+    // Actually render the scene
     renderer.render(scene, camera);
     stats.update();
 }
@@ -76,9 +82,6 @@ window.addEventListener('resize', () => {
     camera.updateProjectionMatrix();
     renderer.setSize(window.innerWidth, window.innerHeight);
 });
-
-// Clock for delta time calculation
-const clock = new THREE.Clock();
 
 // Initialize on DOM load
 window.addEventListener('DOMContentLoaded', init);
