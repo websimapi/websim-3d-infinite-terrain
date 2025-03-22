@@ -53,13 +53,16 @@ export class TerrainSystem {
                 
                 // Create new chunk if it doesn't exist
                 if (!this.chunks.has(chunkId)) {
-                    // Ensure overlap between chunks by extending the resolution by 1
-                    const overlap = 1;
+                    // Calculate exact world coordinates for the chunk
+                    const worldX = x * this.config.chunkSize;
+                    const worldZ = z * this.config.chunkSize;
+                    
+                    // Generate terrain data at exact world coordinates to ensure continuity
                     const heightData = generateTerrainNoise(
-                        x * this.config.chunkSize - overlap,
-                        z * this.config.chunkSize - overlap,
-                        this.config.chunkResolution + overlap * 2,
-                        this.config.chunkSize + overlap * 2,
+                        worldX,
+                        worldZ,
+                        this.config.chunkResolution,
+                        this.config.chunkSize,
                         this.config.maxHeight
                     );
                     

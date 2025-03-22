@@ -10,6 +10,8 @@ export class TerrainChunk {
         // Create mesh
         this.geometry = this.createGeometry(heightData);
         this.mesh = new THREE.Mesh(this.geometry, material);
+        
+        // Set position to exact world coordinates
         this.mesh.position.set(x * size, 0, z * size);
         this.mesh.receiveShadow = true;
         
