@@ -79,7 +79,17 @@ function animate() {
     // Update systems
     if (physicsSystem) physicsSystem.update(delta);
     if (terrainSystem) terrainSystem.update(camera.position);
-    if (player) player.update(delta);
+    if (player) {
+        player.update(delta);
+        
+        // Update debug info
+        if (player.body) {
+            document.getElementById('player-pos').textContent = 
+                `Position: X:${player.body.position.x.toFixed(2)} Y:${player.body.position.y.toFixed(2)} Z:${player.body.position.z.toFixed(2)}`;
+            document.getElementById('player-vel').textContent = 
+                `Velocity: X:${player.body.velocity.x.toFixed(2)} Y:${player.body.velocity.y.toFixed(2)} Z:${player.body.velocity.z.toFixed(2)}`;
+        }
+    }
     
     // Actually render the scene
     renderer.render(scene, camera);

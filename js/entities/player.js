@@ -121,24 +121,34 @@ export class Player {
         if (this.moveForward) {
             velocity.x += cameraDirection.x * moveSpeed * deltaTime;
             velocity.z += cameraDirection.z * moveSpeed * deltaTime;
+            console.log("Moving forward", velocity);
         }
         if (this.moveBackward) {
             velocity.x -= cameraDirection.x * moveSpeed * deltaTime;
             velocity.z -= cameraDirection.z * moveSpeed * deltaTime;
+            console.log("Moving backward", velocity);
         }
         if (this.moveRight) {
             velocity.x += right.x * moveSpeed * deltaTime;
             velocity.z += right.z * moveSpeed * deltaTime;
+            console.log("Moving right", velocity);
         }
         if (this.moveLeft) {
             velocity.x -= right.x * moveSpeed * deltaTime;
             velocity.z -= right.z * moveSpeed * deltaTime;
+            console.log("Moving left", velocity);
         }
+        
+        // Clamp velocity to prevent excessive speed
+        const maxSpeed = config.player.moveSpeed * 0.2;
+        velocity.x = Math.max(Math.min(velocity.x, maxSpeed), -maxSpeed);
+        velocity.z = Math.max(Math.min(velocity.z, maxSpeed), -maxSpeed);
         
         // Handle jump
         if (this.jump && this.isOnGround()) {
             velocity.y = config.player.jumpForce * deltaTime;
             this.jump = false;
+            console.log("Jumping", velocity);
         }
         
         // Update camera position to match player body

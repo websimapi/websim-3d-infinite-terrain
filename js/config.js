@@ -24,7 +24,7 @@ export const config = {
         height: 1.8,
         radius: 0.5,
         mass: 80,
-        moveSpeed: 10,
+        moveSpeed: 50, // Increased from 10 to make movement more noticeable
         jumpForce: 300,
         lookSensitivity: 0.2,
         spawnPosition: { x: 0, y: 20, z: 0 }
