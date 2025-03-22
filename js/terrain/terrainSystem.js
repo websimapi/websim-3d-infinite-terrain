@@ -24,7 +24,8 @@ export class TerrainSystem {
             ground: new THREE.MeshStandardMaterial({ 
                 map: groundTexture,
                 roughness: 0.8,
-                metalness: 0.2
+                metalness: 0.2,
+                wireframe: this.config.wireframe // Add wireframe option for debugging
             })
         };
     }

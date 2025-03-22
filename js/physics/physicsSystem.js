@@ -57,9 +57,9 @@ export class PhysicsSystem {
         
         // Position the body correctly - adjusted for heightfield orientation
         terrainBody.position.set(
-            position.x,
-            position.y - 0.1, // Slightly lower to ensure contact
-            position.z
+            position.x - geometry.parameters.width / 2, 
+            position.y, 
+            position.z - geometry.parameters.height / 2
         );
         terrainBody.quaternion.setFromAxisAngle(new CANNON.Vec3(1, 0, 0), -Math.PI / 2);
         

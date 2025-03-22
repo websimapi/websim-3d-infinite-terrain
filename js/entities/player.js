@@ -17,18 +17,18 @@ export class Player {
     }
     
     setupPhysics() {
-        // Create player physics body (capsule shape)
-        const shape = new CANNON.Sphere(
-            config.player.radius
-        );
+        // Create player physics body (sphere shape for better terrain collision)
+        const radius = config.player.radius;
+        const shape = new CANNON.Sphere(radius);
         
         this.body = new CANNON.Body({
             mass: config.player.mass,
             material: this.physicsSystem.defaultMaterial,
             collisionFilterGroup: 1,  // Player group
-            collisionFilterMask: 1,    // Collide with everything in group 1
+            collisionFilterMask: 1,   // Collide with everything in group 1
             linearDamping: 0.5,       // Add damping to prevent excessive sliding
-            type: CANNON.Body.DYNAMIC
+            type: CANNON.Body.DYNAMIC,
+            fixedRotation: true       // Prevent rotation
         });
         this.body.addShape(shape);
         
@@ -39,10 +39,6 @@ export class Player {
             config.player.spawnPosition.z
         );
         
-        // Set fixed rotation
-        this.body.fixedRotation = true;
-        this.body.updateMassProperties();
-        
         this.physicsSystem.world.addBody(this.body);
         
         // Set contact material for better friction
@@ -51,14 +47,24 @@ export class Player {
             playerPhysicsMaterial,
             this.physicsSystem.defaultMaterial,
             {
-                friction: 0.5,
-                restitution: 0.1,
+                friction: 0.3,
+                restitution: 0.0,
                 contactEquationStiffness: 1e8,
-                contactEquationRelaxation: 3
+                contactEquationRelaxation: 3,
+                frictionEquationStiffness: 1e8
             }
         );
         this.physicsSystem.world.addContactMaterial(playerContactMaterial);
         this.body.material = playerPhysicsMaterial;
+        
+        // Add event listener for collision
+        this.body.addEventListener("collide", (e) => {
+            if (e.body.mass === 0) {  // If we're colliding with a static body (terrain)
+                this.groundContact = true;
+            }
+        });
+        
+        this.groundContact = false;
     }
     
     setupControls() {
@@ -171,9 +177,15 @@ export class Player {
     }
     
     isOnGround() {
-        // Improved ground check
+        // Enhanced ground detection
+        if (this.groundContact) {
+            this.groundContact = false;
+            return true;
+        }
+        
+        // Ray-based ground check as fallback
         const start = this.body.position.clone();
-        const end = new CANNON.Vec3(start.x, start.y - (config.player.radius + 0.2), start.z);
+        const end = new CANNON.Vec3(start.x, start.y - (config.player.radius + 0.1), start.z);
         
         const ray = new CANNON.Ray(start, end);
         ray.mode = CANNON.Ray.CLOSEST;

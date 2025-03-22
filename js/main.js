@@ -60,10 +60,28 @@ async function init() {
             }
         }, 100); // Update position every 100ms
         
+        // Add debug visuals for physics
+        addDebugVisuals();
+        
         console.log("Game initialized successfully!");
     } catch (error) {
         console.error("Error initializing game:", error);
     }
+}
+
+// Add debug visuals to help see what's happening with physics
+function addDebugVisuals() {
+    // Add a debug sphere to mark the spawn point
+    const spawnMarker = new THREE.Mesh(
+        new THREE.SphereGeometry(0.5, 16, 16),
+        new THREE.MeshBasicMaterial({ color: 0xff0000, wireframe: true })
+    );
+    spawnMarker.position.set(
+        config.player.spawnPosition.x,
+        config.player.spawnPosition.y,
+        config.player.spawnPosition.z
+    );
+    scene.add(spawnMarker);
 }
 
 // Clock for delta time calculation
