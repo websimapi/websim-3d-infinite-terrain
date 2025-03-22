@@ -28,7 +28,8 @@ export class Player {
             collisionFilterMask: 1,   // Collide with everything in group 1
             linearDamping: 0.5,       // Add damping to prevent excessive sliding
             type: CANNON.Body.DYNAMIC,
-            fixedRotation: true       // Prevent rotation
+            fixedRotation: true,      // Prevent rotation
+            allowSleep: false         // Prevent the body from sleeping to ensure consistent collision detection
         });
         this.body.addShape(shape);
         

@@ -13,9 +13,9 @@ export const config = {
     // Physics configuration
     physics: {
         gravity: -9.82, // Earth gravity
-        solverIterations: 20, // Increased for better stability
+        solverIterations: 30, // Increased for better stability with terrain collisions
         defaultMaterial: {
-            friction: 0.3, // Lower friction to prevent sticking
+            friction: 0.5, // Increased friction to prevent sliding
             restitution: 0.0 // No bouncing
         }
     },
@@ -23,7 +23,7 @@ export const config = {
     // Player configuration
     player: {
         height: 1.8,
-        radius: 0.5, // Sphere radius for player
+        radius: 0.6, // Increased sphere radius for player to prevent falling through gaps
         mass: 70,     // Realistic mass
         moveSpeed: 40, // Balanced movement speed
         jumpForce: 200, // Lower jump force
