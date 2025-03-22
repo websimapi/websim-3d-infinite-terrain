@@ -22,11 +22,11 @@ export const config = {
     // Player configuration
     player: {
         height: 1.8,
-        radius: 0.5,
-        mass: 80,
+        radius: 0.5, // Larger radius for better collision
+        mass: 100,    // Increased mass for better stability
         moveSpeed: 40, // Reduced from 50 for better control
         jumpForce: 250, // Reduced from 300
         lookSensitivity: 0.2,
-        spawnPosition: { x: 0, y: 20, z: 0 }
+        spawnPosition: { x: 0, y: 30, z: 0 } // Higher spawn position
     }
 };

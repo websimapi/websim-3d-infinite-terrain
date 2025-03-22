@@ -26,12 +26,16 @@ export class Player {
             mass: config.player.mass,
             material: this.physicsSystem.defaultMaterial,
             collisionFilterGroup: 1,  // Player group
-            collisionFilterMask: 1    // Collide with everything in group 1
+            collisionFilterMask: 1,    // Collide with everything in group 1
+            linearDamping: 0.5,       // Add damping to prevent excessive sliding
+            type: CANNON.Body.DYNAMIC
         });
         this.body.addShape(shape);
+        
+        // Start position higher above the terrain to give it time to load
         this.body.position.set(
             config.player.spawnPosition.x,
-            config.player.spawnPosition.y,
+            config.player.spawnPosition.y + 20, // Start higher above terrain
             config.player.spawnPosition.z
         );
         
@@ -152,10 +156,9 @@ export class Player {
     }
     
     isOnGround() {
-        // Raycast to check for ground contact
+        // Improved ground check
         const start = this.body.position.clone();
-        const end = start.clone();
-        end.y -= config.player.radius + 0.1;
+        const end = new CANNON.Vec3(start.x, start.y - (config.player.radius + 0.2), start.z);
         
         const ray = new CANNON.Ray(start, end);
         ray.mode = CANNON.Ray.CLOSEST;
