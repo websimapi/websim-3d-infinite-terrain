@@ -1,3 +1,4 @@
+import * as THREE from 'three';
 import { initRenderer } from './renderer.js';
 import { initScene } from './scene.js';
 import { initCamera } from './camera.js';
@@ -81,4 +82,3 @@ const clock = new THREE.Clock();
 
 // Initialize on DOM load
 window.addEventListener('DOMContentLoaded', init);
-
