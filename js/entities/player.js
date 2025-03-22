@@ -18,11 +18,8 @@ export class Player {
     
     setupPhysics() {
         // Create player physics body (capsule shape)
-        const shape = new CANNON.Cylinder(
-            config.player.radius,
-            config.player.radius,
-            config.player.height,
-            8
+        const shape = new CANNON.Sphere(
+            config.player.radius
         );
         
         this.body = new CANNON.Body({
@@ -121,22 +118,18 @@ export class Player {
         if (this.moveForward) {
             velocity.x += cameraDirection.x * moveSpeed * deltaTime;
             velocity.z += cameraDirection.z * moveSpeed * deltaTime;
-            console.log("Moving forward", velocity);
         }
         if (this.moveBackward) {
             velocity.x -= cameraDirection.x * moveSpeed * deltaTime;
             velocity.z -= cameraDirection.z * moveSpeed * deltaTime;
-            console.log("Moving backward", velocity);
         }
         if (this.moveRight) {
             velocity.x += right.x * moveSpeed * deltaTime;
             velocity.z += right.z * moveSpeed * deltaTime;
-            console.log("Moving right", velocity);
         }
         if (this.moveLeft) {
             velocity.x -= right.x * moveSpeed * deltaTime;
             velocity.z -= right.z * moveSpeed * deltaTime;
-            console.log("Moving left", velocity);
         }
         
         // Clamp velocity to prevent excessive speed
@@ -148,7 +141,6 @@ export class Player {
         if (this.jump && this.isOnGround()) {
             velocity.y = config.player.jumpForce * deltaTime;
             this.jump = false;
-            console.log("Jumping", velocity);
         }
         
         // Update camera position to match player body
@@ -160,8 +152,19 @@ export class Player {
     }
     
     isOnGround() {
-        // Simple ground check
-        return Math.abs(this.body.velocity.y) < 0.1;
+        // Raycast to check for ground contact
+        const start = this.body.position.clone();
+        const end = start.clone();
+        end.y -= config.player.radius + 0.1;
+        
+        const ray = new CANNON.Ray(start, end);
+        ray.mode = CANNON.Ray.CLOSEST;
+        ray.collisionFilterMask = 1;
+        
+        const result = new CANNON.RaycastResult();
+        ray.intersectWorld(this.physicsSystem.world, { result });
+        
+        return result.hasHit;
     }
     
     updateNetworkPosition() {

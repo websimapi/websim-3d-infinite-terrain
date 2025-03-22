@@ -14,8 +14,8 @@ export const config = {
         gravity: -9.82, // Earth gravity
         solverIterations: 20, // Increased for better stability
         defaultMaterial: {
-            friction: 0.5,
-            restitution: 0.2
+            friction: 0.8, // Increased friction
+            restitution: 0.1 // Reduced bounciness
         }
     },
     
@@ -24,8 +24,8 @@ export const config = {
         height: 1.8,
         radius: 0.5,
         mass: 80,
-        moveSpeed: 50, // Increased from 10 to make movement more noticeable
-        jumpForce: 300,
+        moveSpeed: 40, // Reduced from 50 for better control
+        jumpForce: 250, // Reduced from 300
         lookSensitivity: 0.2,
         spawnPosition: { x: 0, y: 20, z: 0 }
     }

@@ -50,7 +50,9 @@ export class PhysicsSystem {
         const terrainBody = new CANNON.Body({
             mass: 0, // Static body
             material: this.defaultMaterial,
-            shape: terrainShape
+            shape: terrainShape,
+            collisionFilterGroup: 1, // Terrain group
+            collisionFilterMask: 1   // Collide with group 1 (which includes player)
         });
         
         // Position the body correctly
