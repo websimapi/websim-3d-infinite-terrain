@@ -29,5 +29,10 @@ export function initControls(camera, domElement) {
         instructions.style.display = 'flex';
     });
     
+    // Add click event listener to instructions element
+    instructions.addEventListener('click', () => {
+        controls.lock();
+    });
+    
     return controls;
 }
