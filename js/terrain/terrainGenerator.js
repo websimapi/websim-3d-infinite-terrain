@@ -1,6 +1,6 @@
-import SimplexNoise from 'https://cdn.jsdelivr.net/npm/simplex-noise@2.4.0/simplex-noise.js';
+import { createNoise2D } from 'https://cdn.jsdelivr.net/npm/simplex-noise@4.0.1/dist/esm/simplex-noise.js';
 
-const simplex = new SimplexNoise();
+const noise2D = createNoise2D();
 
 export function generateTerrainNoise(offsetX, offsetZ, resolution, size, maxHeight) {
     const heightData = new Float32Array(resolution * resolution);
@@ -11,7 +11,7 @@ export function generateTerrainNoise(offsetX, offsetZ, resolution, size, maxHeig
             const z = offsetZ + (j / (resolution - 1) * size);
             
             // For now, flat terrain with slight noise
-            const height = 0; // Flat terrain base
+            const height = maxHeight * 0.05 * noise2D(x/100, z/100); // Some gentle terrain variation
             
             // Store the height
             heightData[i + j * resolution] = height;
@@ -20,4 +20,3 @@ export function generateTerrainNoise(offsetX, offsetZ, resolution, size, maxHeig
     
     return heightData;
 }
-
