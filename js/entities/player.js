@@ -27,7 +27,9 @@ export class Player {
         
         this.body = new CANNON.Body({
             mass: config.player.mass,
-            material: this.physicsSystem.defaultMaterial
+            material: this.physicsSystem.defaultMaterial,
+            collisionFilterGroup: 1,  // Player group
+            collisionFilterMask: 1    // Collide with everything in group 1
         });
         this.body.addShape(shape);
         this.body.position.set(

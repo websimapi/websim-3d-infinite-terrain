@@ -12,10 +12,10 @@ export const config = {
     // Physics configuration
     physics: {
         gravity: -9.82, // Earth gravity
-        solverIterations: 10, // More iterations = more accurate but slower
+        solverIterations: 20, // Increased for better stability
         defaultMaterial: {
-            friction: 0.3,
-            restitution: 0.3
+            friction: 0.5,
+            restitution: 0.2
         }
     },
     

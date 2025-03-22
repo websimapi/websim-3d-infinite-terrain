@@ -31,7 +31,10 @@ export class PhysicsSystem {
         const vertices = geometry.attributes.position.array;
         const resolution = Math.sqrt(vertices.length / 3);
         
+        // Extract heightfield data
         const heights = [];
+        const elementSize = geometry.parameters.width / (resolution - 1);
+        
         for (let i = 0; i < resolution; i++) {
             heights[i] = [];
             for (let j = 0; j < resolution; j++) {
@@ -41,7 +44,7 @@ export class PhysicsSystem {
         }
         
         const terrainShape = new CANNON.Heightfield(heights, {
-            elementSize: geometry.parameters.width / (resolution - 1)
+            elementSize: elementSize
         });
         
         const terrainBody = new CANNON.Body({
@@ -52,9 +55,9 @@ export class PhysicsSystem {
         
         // Position the body correctly
         terrainBody.position.set(
-            position.x - geometry.parameters.width / 2,
+            position.x,
             position.y,
-            position.z - geometry.parameters.height / 2
+            position.z
         );
         terrainBody.quaternion.setFromAxisAngle(new CANNON.Vec3(1, 0, 0), -Math.PI / 2);
         
