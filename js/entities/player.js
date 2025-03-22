@@ -137,8 +137,8 @@ export class Player {
         // Update camera position (top-down view)
         this.camera.position.set(
             this.body.position.x,
-            50, // Fixed height for top-down view
-            this.body.position.z
+            100, // Increased height for better visibility
+            this.body.position.z + 20 // Added offset to see in front of player
         );
         this.camera.lookAt(this.body.position.x, 0, this.body.position.z);
     }

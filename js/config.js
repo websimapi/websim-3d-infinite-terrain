@@ -27,7 +27,6 @@ export const config = {
         moveSpeed: 10,
         jumpForce: 300,
         lookSensitivity: 0.2,
-        spawnPosition: { x: 0, y: 20, z: 0 }
+        spawnPosition: { x: 0, y: 30, z: 0 } // Raised spawn position to be above terrain
     }
 };
-

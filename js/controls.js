@@ -6,13 +6,13 @@ export function initControls(camera, domElement) {
     controls.dampingFactor = 0.05;
     controls.screenSpacePanning = false;
     controls.minDistance = 10;
-    controls.maxDistance = 100;
-    controls.maxPolarAngle = Math.PI / 4; // Limit rotation to maintain top-down view
-    controls.minPolarAngle = 0; // Allow rotation to overhead view
+    controls.maxDistance = 200; 
+    controls.maxPolarAngle = Math.PI / 4; 
+    controls.minPolarAngle = 0; 
     
     // Set initial position to top-down
     controls.target.set(0, 0, 0);
-    camera.position.set(0, 50, 0);
+    camera.position.set(0, 100, 20); 
     camera.lookAt(0, 0, 0);
     controls.update();
     
