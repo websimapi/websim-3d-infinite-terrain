@@ -44,6 +44,21 @@ export class Player {
         this.body.updateMassProperties();
         
         this.physicsSystem.world.addBody(this.body);
+        
+        // Set contact material for better friction
+        const playerPhysicsMaterial = new CANNON.Material('playerMaterial');
+        const playerContactMaterial = new CANNON.ContactMaterial(
+            playerPhysicsMaterial,
+            this.physicsSystem.defaultMaterial,
+            {
+                friction: 0.5,
+                restitution: 0.1,
+                contactEquationStiffness: 1e8,
+                contactEquationRelaxation: 3
+            }
+        );
+        this.physicsSystem.world.addContactMaterial(playerContactMaterial);
+        this.body.material = playerPhysicsMaterial;
     }
     
     setupControls() {

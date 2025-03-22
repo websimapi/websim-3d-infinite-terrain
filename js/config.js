@@ -12,10 +12,10 @@ export const config = {
     // Physics configuration
     physics: {
         gravity: -9.82, // Earth gravity
-        solverIterations: 20, // Increased for better stability
+        solverIterations: 10, // Reduced for better performance but still stable
         defaultMaterial: {
-            friction: 0.8, // Increased friction
-            restitution: 0.1 // Reduced bounciness
+            friction: 0.5, // Balanced friction
+            restitution: 0.0 // No bouncing
         }
     },
     
@@ -23,10 +23,10 @@ export const config = {
     player: {
         height: 1.8,
         radius: 0.5, // Larger radius for better collision
-        mass: 100,    // Increased mass for better stability
-        moveSpeed: 40, // Reduced from 50 for better control
-        jumpForce: 250, // Reduced from 300
+        mass: 70,     // Realistic mass
+        moveSpeed: 40, // Balanced movement speed
+        jumpForce: 200, // Lower jump force
         lookSensitivity: 0.2,
-        spawnPosition: { x: 0, y: 30, z: 0 } // Higher spawn position
+        spawnPosition: { x: 0, y: 50, z: 0 } // Higher spawn position
     }
 };

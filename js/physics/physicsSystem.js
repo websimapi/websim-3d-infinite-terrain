@@ -55,11 +55,11 @@ export class PhysicsSystem {
             collisionFilterMask: 1   // Collide with group 1 (which includes player)
         });
         
-        // Position the body correctly - adjusted for better collision
+        // Position the body correctly - adjusted for heightfield orientation
         terrainBody.position.set(
-            position.x - elementSize * (resolution - 1) / 2,
-            position.y,
-            position.z - elementSize * (resolution - 1) / 2
+            position.x,
+            position.y - 0.1, // Slightly lower to ensure contact
+            position.z
         );
         terrainBody.quaternion.setFromAxisAngle(new CANNON.Vec3(1, 0, 0), -Math.PI / 2);
         
