@@ -100,8 +100,13 @@ export class Player {
         const velocity = this.body.velocity;
         
         // Calculate move direction from camera view direction
-        const cameraDirection = new THREE.Vector3(0, 0, 1); // Fixed top-down direction
-        const right = new THREE.Vector3(1, 0, 0); // Fixed right direction
+        const cameraDirection = new THREE.Vector3();
+        this.camera.getWorldDirection(cameraDirection);
+        cameraDirection.y = 0;
+        cameraDirection.normalize();
+        
+        const right = new THREE.Vector3();
+        right.crossVectors(cameraDirection, new THREE.Vector3(0, 1, 0));
         
         // Reset velocity
         const damping = 0.9;
@@ -112,20 +117,20 @@ export class Player {
         const moveSpeed = config.player.moveSpeed;
         
         if (this.moveForward) {
-            velocity.x += 0;
-            velocity.z -= moveSpeed * deltaTime; // Move in negative Z direction
+            velocity.x += cameraDirection.x * moveSpeed * deltaTime;
+            velocity.z += cameraDirection.z * moveSpeed * deltaTime;
         }
         if (this.moveBackward) {
-            velocity.x += 0;
-            velocity.z += moveSpeed * deltaTime; // Move in positive Z direction
+            velocity.x -= cameraDirection.x * moveSpeed * deltaTime;
+            velocity.z -= cameraDirection.z * moveSpeed * deltaTime;
         }
         if (this.moveRight) {
-            velocity.x += moveSpeed * deltaTime; // Move in positive X direction
-            velocity.z += 0;
+            velocity.x += right.x * moveSpeed * deltaTime;
+            velocity.z += right.z * moveSpeed * deltaTime;
         }
         if (this.moveLeft) {
-            velocity.x -= moveSpeed * deltaTime; // Move in negative X direction
-            velocity.z += 0;
+            velocity.x -= right.x * moveSpeed * deltaTime;
+            velocity.z -= right.z * moveSpeed * deltaTime;
         }
         
         // Handle jump
@@ -134,13 +139,12 @@ export class Player {
             this.jump = false;
         }
         
-        // Update camera position (top-down view)
+        // Update camera position to match player body
         this.camera.position.set(
             this.body.position.x,
-            100, // Increased height for better visibility
-            this.body.position.z + 20 // Added offset to see in front of player
+            this.body.position.y + config.player.height / 2,
+            this.body.position.z
         );
-        this.camera.lookAt(this.body.position.x, 0, this.body.position.z);
     }
     
     isOnGround() {

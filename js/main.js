@@ -42,7 +42,7 @@ async function init() {
         // Initialize player
         player = new Player(scene, physicsSystem, camera, networkManager);
         
-        // Set up controls after player is created (not before)
+        // Set up controls after player is created
         controls = initControls(camera, renderer.domElement);
         
         // Hide loading screen

@@ -1,20 +1,33 @@
-import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { PointerLockControls } from 'three/addons/controls/PointerLockControls.js';
+import { config } from './config.js';
 
 export function initControls(camera, domElement) {
-    const controls = new OrbitControls(camera, domElement);
-    controls.enableDamping = true;
-    controls.dampingFactor = 0.05;
-    controls.screenSpacePanning = false;
-    controls.minDistance = 10;
-    controls.maxDistance = 200; 
-    controls.maxPolarAngle = Math.PI / 4; 
-    controls.minPolarAngle = 0; 
+    const controls = new PointerLockControls(camera, document.body);
     
-    // Set initial position to top-down
-    controls.target.set(0, 0, 0);
-    camera.position.set(0, 100, 20); 
-    camera.lookAt(0, 0, 0);
-    controls.update();
+    // Add event listeners for pointer lock
+    domElement.addEventListener('click', () => {
+        controls.lock();
+    });
+    
+    // Instructions for the user
+    const instructions = document.createElement('div');
+    instructions.id = 'instructions';
+    instructions.innerHTML = `
+        <div class="instruction-content">
+            <h2>Click to play</h2>
+            <p>Move: WASD<br>Jump: SPACE<br>Look: MOUSE</p>
+        </div>
+    `;
+    document.body.appendChild(instructions);
+    
+    // Show/hide instructions based on pointer lock state
+    controls.addEventListener('lock', () => {
+        instructions.style.display = 'none';
+    });
+    
+    controls.addEventListener('unlock', () => {
+        instructions.style.display = 'flex';
+    });
     
     return controls;
 }

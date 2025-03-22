@@ -8,9 +8,8 @@ export function initCamera() {
         1000 // Far clipping plane
     );
     
-    // Position camera higher to ensure it's above terrain
-    camera.position.set(0, 100, 20); // Increased height and moved back slightly
-    camera.lookAt(0, 0, 0);
+    // Set initial position higher to see the terrain
+    camera.position.set(0, 30, 30);
     
     return camera;
 }
