@@ -14,47 +14,56 @@ import { GameState } from './gameState.js';
 let stats, renderer, scene, camera, controls;
 let terrainSystem, physicsSystem, player, networkManager;
 let gameState;
+let isInitialized = false;
 
 // Initialize the game
 async function init() {
-    // Core three.js setup
-    renderer = initRenderer();
-    scene = initScene();
-    camera = initCamera();
-    
-    // Initialize stats for performance monitoring
-    stats = new Stats();
-    document.body.appendChild(stats.dom);
-    
-    // Game state management
-    gameState = new GameState();
-    
-    // Initialize systems
-    physicsSystem = new PhysicsSystem();
-    terrainSystem = new TerrainSystem(scene, physicsSystem, config.terrain);
-    
-    // Initialize networking
-    networkManager = new NetworkManager();
-    await networkManager.initialize();
-    
-    // Initialize player
-    player = new Player(scene, physicsSystem, camera, networkManager);
-    
-    // Set up controls after player is created (not before)
-    controls = initControls(camera, renderer.domElement);
-    
-    // Hide loading screen
-    document.getElementById('loading').style.display = 'none';
-    
-    // Start the render loop
-    animate();
-    
-    // Start updating player position to network
-    setInterval(() => {
-        if (player) {
-            player.updateNetworkPosition();
-        }
-    }, 100); // Update position every 100ms
+    try {
+        // Core three.js setup
+        renderer = initRenderer();
+        scene = initScene();
+        camera = initCamera();
+        
+        // Initialize stats for performance monitoring
+        stats = new Stats();
+        document.body.appendChild(stats.dom);
+        
+        // Game state management
+        gameState = new GameState();
+        
+        // Initialize systems
+        physicsSystem = new PhysicsSystem();
+        terrainSystem = new TerrainSystem(scene, physicsSystem, config.terrain);
+        
+        // Initialize networking
+        networkManager = new NetworkManager();
+        await networkManager.initialize();
+        
+        // Initialize player
+        player = new Player(scene, physicsSystem, camera, networkManager);
+        
+        // Set up controls after player is created (not before)
+        controls = initControls(camera, renderer.domElement);
+        
+        // Hide loading screen
+        document.getElementById('loading').style.display = 'none';
+        
+        isInitialized = true;
+        
+        // Start the render loop
+        animate();
+        
+        // Start updating player position to network
+        setInterval(() => {
+            if (player) {
+                player.updateNetworkPosition();
+            }
+        }, 100); // Update position every 100ms
+        
+        console.log("Game initialized successfully!");
+    } catch (error) {
+        console.error("Error initializing game:", error);
+    }
 }
 
 // Clock for delta time calculation
@@ -62,6 +71,8 @@ const clock = new THREE.Clock();
 
 function animate() {
     requestAnimationFrame(animate);
+    
+    if (!isInitialized) return;
     
     const delta = Math.min(0.1, clock.getDelta());
     

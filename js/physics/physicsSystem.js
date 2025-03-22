@@ -35,7 +35,7 @@ export class PhysicsSystem {
         for (let i = 0; i < resolution; i++) {
             heights[i] = [];
             for (let j = 0; j < resolution; j++) {
-                const index = (i + j * resolution) * 3 + 1; // +1 for y component
+                const index = (i * resolution + j) * 3 + 1; // +1 for y component
                 heights[i][j] = vertices[index];
             }
         }
@@ -98,4 +98,3 @@ export class PhysicsSystem {
         this.world.removeBody(body);
     }
 }
-

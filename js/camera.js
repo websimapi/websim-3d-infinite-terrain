@@ -9,7 +9,7 @@ export function initCamera() {
     );
     
     // Set initial position higher to see the terrain
-    camera.position.set(0, 20, 20);
+    camera.position.set(0, 30, 30);
     
     return camera;
 }
