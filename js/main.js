@@ -80,7 +80,6 @@ function animate() {
     if (physicsSystem) physicsSystem.update(delta);
     if (terrainSystem) terrainSystem.update(camera.position);
     if (player) player.update(delta);
-    if (controls) controls.update();
     
     // Actually render the scene
     renderer.render(scene, camera);
